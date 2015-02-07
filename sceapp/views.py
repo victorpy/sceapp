@@ -31,6 +31,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 logger = logging.getLogger(__name__)
 
+
+def underconst(request):
+	return HttpResponse("Under Construction!")
+
 @login_required(login_url='/sceapp/login/')
 def index(request):
 	lastest_tickets_list = Ticket.objects.order_by('-start_date')[:5]
@@ -74,6 +78,7 @@ def payticketpreview(request):
         else:
                 return render(request, 'sceapp/paymenterror.html')
 
+	#ticket abierto
 	if t.state == 'A':
 	
 		paydate = timezone.now()
@@ -159,7 +164,10 @@ def ticketsbydayform(request):
 def listticketsbyday(request):
 	date_str = request.POST.get('dateSelected')
 	logger.debug("listticketsbyday: date_str: %s ", date_str)
-	#for pagination we use GET
+	
+
+
+#for pagination we use GET
 	if not date_str:
 		date_str = request.GET.get('dateSelected')
 
@@ -224,6 +232,27 @@ def detail(request, ticket_id):
 		raise Http404
 	return render(request, 'sceapp/detail.html', {'ticket':ticket})
 
+@login_required(login_url='/sceapp/login/')
+def nullticketform(request, ticket_id):
+	return render(request, 'sceapp/nullticketform.html')
+
+@login_required(login_url='/sceapp/login/')
+def nullticket(request):
+
+	ticket_id = request.POST['typed_id']
+	t_array = Ticket.objects.filter(token=ticket_id)
+
+        if len(t_array) >= 1:
+                t = t_array[0]
+        else:
+                return render(request, 'sceapp/ticketnotexist.html', {'ticket_id', ticket_id} )
+
+	t.status = 'N'
+	t.save()
+	
+        return render(request, 'sceapp/nullticket.html', {'ticket_id', t.token} )
+
+
 def login_user(request):
     state = "Please log in below..."
     username = password = ''
@@ -282,6 +311,10 @@ def render_to_pdf(template_src, context_dict):
 
 def pdfview(request, ticket_id):
     #Retrieve data or whatever you need
+    tickets = Ticket.objects.filter(token=ticket_id)
+    t = tickets[0]
+    start_date=t.start_date
+
     bc = get_image(ticket_id)
     results=[ bc ]
     header= ""
@@ -289,13 +322,14 @@ def pdfview(request, ticket_id):
     top_title = top_title_config.value
     logger.debug("pdfview: topTitle: %s", top_title)
     return render_to_pdf(
-            'mytemplate.html',
+            'tickettemplate.html',
             {
                 'pagesize':'b6',
                 'mylist': results,
 		'barcode': bc,
 		'ticket_id': ticket_id,
-		'top_title': top_title
+		'top_title': top_title,
+		'start_date': start_date
             }
         )
 
