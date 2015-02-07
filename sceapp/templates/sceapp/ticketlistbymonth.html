@@ -1,0 +1,78 @@
+{% load staticfiles %}
+
+
+<html>
+    <head>
+        <title>Listado Tickets por Dia</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    </head>
+
+<body>
+
+<div class="container">
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">SCEAPP</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="inactive"><a href="/sceapp/index">Inicio</a></li>
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/sceapp/ticketsbydayform">Listar por Dia</a></li>
+              <li><a href="/sceapp/ticketsbymonthform">Listar por Mes</a></li>
+            </ul>
+          </li>
+        </ul>
+            <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li class="inactive"><a href="/sceapp/logout">Salir</a></li>
+          </li>
+        </ul>
+      </div><!-- /.nav-collapse -->
+    </div>
+  </div><!-- /navbar-inner -->
+</div>
+
+
+	<div class="row">
+	<div class="span8">
+            <table class="table">
+                  <thead>
+                  <tr>
+                      <th>Mes</th>
+                      <th>Total Tickets</th>
+                      <th>Total Pagados</th>
+                      <th>Total Abiertos</th>
+		      <th>Total Anulados</th>
+                  </tr>
+              </thead>   
+              <tbody>
+		{% for tl in total_list %}
+		<tr>
+    			<td>{{ forloop.counter }}</td>
+			{% for key, value in tl.items %}
+			<td>{{ value }}</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+              </tbody>
+            </table>
+            </div>
+	</div>
+</div>
+
+
+<script src="{% static 'jquery/jquery.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

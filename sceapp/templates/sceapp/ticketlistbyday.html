@@ -1,0 +1,102 @@
+{% load staticfiles %}
+
+
+<html>
+    <head>
+        <title>Listado Tickets por Dia</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    </head>
+
+<body>
+
+<div class="container">
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="#">SCEAPP</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="inactive"><a href="/sceapp/index">Inicio</a></li>
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/sceapp/ticketsbydayform">Listar por Dia</a></li>
+              <li><a href="#">Listar por Mes</a></li>
+            </ul>
+          </li>
+        </ul>
+            <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li class="inactive"><a href="/sceapp/logout">Salir</a></li>
+          </li>
+        </ul>
+      </div><!-- /.nav-collapse -->
+    </div>
+  </div><!-- /navbar-inner -->
+</div>
+
+
+<div class="hero-unit">
+
+	<h3>Monto Total: {{ total_amount }} Gs.</h3>
+	<div class="row">
+	<div class="span8">
+            <table class="table">
+                  <thead>
+                  <tr>
+                      <th>ID Ticket</th>
+                      <th>Fecha Creacion</th>
+                      <th>Creado por</th>
+                      <th>Estado</th>
+		      <th>Monto</th>
+                  </tr>
+              </thead>   
+              <tbody>
+		{% for ticket in tickets %}
+		<tr>
+    			<td>{{ ticket.token|upper }}</td>
+			<td>{{ ticket.start_date|date:"Y-m-d H:i" }}</td>
+			<td>{{ ticket.created_by }}</td>
+			<td><span class="label label-success">{{ ticket.state }}</span></td>
+			{% for payment in ticket.payment_set.all %}
+				<td>{{ payment.amount }}</td>
+			{% empty %}
+				<td>0</td>
+			{% endfor %}
+		</tr>
+		{% endfor %}
+              </tbody>
+            </table>
+            </div>
+	</div>
+</div>
+
+<div class="pagination">
+    <span class="step-links">
+        {% if tickets.has_previous %}
+            <a href="?page={{ tickets.previous_page_number }}&dateSelected={{ dateSelected }}">Anterior</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ tickets.number }} of {{ tickets.paginator.num_pages }}.
+        </span>
+
+        {% if tickets.has_next %}
+            <a href="?page={{ tickets.next_page_number }}&dateSelected={{ dateSelected }}">Siguiente</a>
+        {% endif %}
+    </span>
+</div>
+</div> 
+
+<script src="{% static 'jquery/jquery.min.js' %}"></script>
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<html>
+  <head>
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+          rel="stylesheet" media="screen">
+     <style type="text/css">
+        .btn-huge{
+    		padding-top:30px;
+    		padding-bottom:30px;
+	}
+    </style>
+<script>
+function startTime() {
+    var today=new Date();
+    var y=today.getFullYear();
+    var mo=today.getMonth();
+    var d=today.getDay();
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('hour').innerHTML = "<h2> "+d+"/"+(mo+1)+"/"+y+" - "+h+":"+m+":"+s+"</h2>";
+    var t = setTimeout(function(){startTime()},500);
+}
+
+function checkTime(i) {
+    if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+}
+</script>
+</head>
+
+<body onload="startTime()">
+<div class="container">
+
+
+    <br>
+
+<h1>Menu</h1>
+<div id="hour"></div>
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+ <a target='_blank'  href="{% url 'sceapp:newtabticket' %}" class="btn btn-primary btn-lg btn-block btn-huge">Generar Ticket</button>
+ <a href="{% url 'sceapp:newpayticket' %}"  class="btn btn-success btn-lg btn-block btn-huge" >Pagar Ticket</a>
+ <br>
+ <a href="#" class="btn btn-info btn-lg btn-block btn-huge">Otros Pagos</a>
+</div>
+</body>
+</html>

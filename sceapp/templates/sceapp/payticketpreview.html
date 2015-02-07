@@ -1,0 +1,71 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Vista Previa - Pagar Ticket</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/datepicker.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    </head>
+<body>
+<div class="container" >
+
+<div class="navbar">
+  <div class="navbar-inner">
+    <div class="container">
+      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+      <a class="brand" href="/sceapp/index">SCEAPP</a>
+      <div class="nav-collapse">
+        <ul class="nav">
+          <li class="inactive"><a href="/sceapp/index">Inicio</a></li>
+            <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><a href="/sceapp/ticketsbydayform">Listar por Dia</a></li>
+              <li><a href="/sceapp/ticketsbymonthform">Listar por Mes</a></li>
+            </ul>
+          </li>
+        </ul>
+            <ul class="nav pull-right">
+          <li class="divider-vertical"></li>
+          <li class="inactive"><a href="/sceapp/logout">Salir</a></li>
+          </li>
+        </ul>
+      </div><!-- /.nav-collapse -->
+    </div>
+  </div><!-- /navbar-inner -->
+</div>
+
+<div class="hero-unit">
+<h2>Informe de Ticket</h2>
+
+<h3>Fecha de Entrada: {{ start_date|date:"Y-m-d H:i:s" }}</h3>
+<h3>Fecha de Salida: {{ end_date|date:"Y-m-d H:i:s" }}</h3>
+<h3>Tiempo total: {{ total_time_str }}</h3>
+<h3>Monto a Pagar: {{ amount }} Gs.</h3>
+<div class="hero-unit">
+<form action="{% url 'sceapp:payticket' %}" method="post" target="_blank" >
+{% csrf_token %}
+Ingresar ID: <input type="Text" name="typed_id" autofocus="autofocus" value={{ ticket_token }} /> 
+<input type="hidden" name="end_date" value="{{ end_date|date:"Y-m-d H:i:s" }}" />
+<input type="hidden" name="amount" value="{{ amount }}"  />
+
+<button type="submit" onclick="this.disabled=true;this.value='Pago Enviado';this.form.submit();" class="btn btn-success">Pagar</button>
+<a href="/sceapp/index" class="btn btn-info">Volver</a>
+</form>
+</div>
+
+</div>
+
+	<script src="{% static 'jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+ </body>
+</html>
+
+

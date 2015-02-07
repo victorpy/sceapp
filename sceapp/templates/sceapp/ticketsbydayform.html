@@ -1,0 +1,50 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Listado Tickets por Dia</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/datepicker.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    </head>
+    <body>
+
+<div class="container">
+
+<div class="hero-unit pull-down">
+	  <form id="dateSelect" action="{% url 'sceapp:listticketsbyday' %}" method="post" >
+	    {% csrf_token %}
+                <input  type="text" placeholder="click para seleccionar fecha" data-inline="true"  id="dateSelected" name="dateSelected">
+		<button type="submit" class="btn btn-default">Consultar</button>
+	  </form>
+
+</div>
+        <!-- Load jQuery and bootstrap datepicker scripts -->
+	<script src="{% static 'jquery/jquery.min.js' %}"></script>
+
+        <script type="text/javascript">
+            // When the document is ready
+            $(document).ready(function () {
+                
+                $('#dateSelected').datepicker({
+                    format: "yyyy-mm-dd",
+		    language: "es",
+		    autoclose: true,
+		    beforShow: function (input, inst) {
+        		setTimeout(function () {
+	        	inst.dpDiv.css({ marginTop: (-input.offsetHeight) + 'px',
+                    marginLeft: input.offsetWidth + 'px' });
+        		}, 0);
+    			}	
+                });
+            
+            });
+        </script>
+
+        <script src="{% static 'bootstrap/js/datepicker.js' %}"></script>
+        <script src="{% static 'bootstrap/js/datepicker.es.js' %}"></script>
+
+    </body>
+</html>
+

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>My Title</title>
+        <style type="text/css">
+            @page {
+                size: 8cm 8cm;
+                margin: 0.5cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+        </style>
+    </head>
+    <body>
+	<h3>{{ top_title }}</h3>
+	<h4>Oliva 1052 c/ Chile-Tel: 442844</h4>
+	<h4>No valido como comprobante legal</h4>
+	<h4>ID Ticket: {{ ticket_id }}</h4>
+	<h4>Entrada: {{ start_date|date:"Y-m-d H:i:s" }}</h4>        
+	<h4>Salida: {{ end_date|date:"Y-m-d H:i:s" }}</h4>
+	<h4>Tiempo Total: {{ total_time }}</h4>
+	<h4>Monto Pagado: {{ amount }}</h4>
+	<h4>Gracias por su preferencia</h4>
+        <div id="footerContent">
+            {%block page_foot%}
+                Page <pdf:pagenumber>
+            {%endblock%}
+        </div>
+    </body>
+</html>

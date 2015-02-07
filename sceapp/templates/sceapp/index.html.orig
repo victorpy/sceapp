@@ -1,0 +1,9 @@
+{% if lastest_tickets_list %}
+    <ul>
+    {% for ticket in lastest_tickets_list %}
+        <li><a href="/sceapp/{{ ticket.id }}/">{{ ticket.description }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}

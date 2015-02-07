@@ -1,0 +1,10 @@
+<h1>Pantalla Inicial</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'sceapp:newticket' %}" method="post">
+{% csrf_token %}
+<input type="submit" value="Generar Ticket" />
+</form>
+
+<a href="{% url 'sceapp:newpayticket' %}">Pagar Ticket</a>

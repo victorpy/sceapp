@@ -1,0 +1,20 @@
+<html>
+<head>
+<script>
+function sendNewTicket(){
+  document.forms['newticket'].submit()
+
+}
+</script>
+</head>
+
+<body onload="sendNewTicket()">
+
+ <form action="{% url 'sceapp:newticket' %}" method="post" id="newticket">
+  {% csrf_token %}
+  <button type="submit">Generar Ticket</button>
+ </form>
+
+</body>
+</html>
+
