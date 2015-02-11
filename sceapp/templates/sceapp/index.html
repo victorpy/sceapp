@@ -18,13 +18,13 @@ function startTime() {
     var today=new Date();
     var y=today.getFullYear();
     var mo=today.getMonth();
-    var d=today.getDay();
+    var d=today.getDate();
     var h=today.getHours();
     var m=today.getMinutes();
     var s=today.getSeconds();
     m = checkTime(m);
     s = checkTime(s);
-    document.getElementById('hour').innerHTML = "<h2> "+(d+1)+"/"+(mo+1)+"/"+y+" - "+h+":"+m+":"+s+"</h2>";
+    document.getElementById('hour').innerHTML = "<h2> "+(d)+"/"+(mo+1)+"/"+y+" - "+h+":"+m+":"+s+"</h2>";
     var t = setTimeout(function(){startTime()},500);
 }
 
@@ -38,36 +38,7 @@ function checkTime(i) {
 <body onload="startTime()">
 <div class="container">
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <a class="brand" href="#">SCEAPP</a>
-      <div class="nav-collapse">
-        <ul class="nav">
-          <li class="active"><a href="#">Inicio</a></li>
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="/sceapp/ticketsbydayform">Listar por Dia</a></li>
-              <li><a href="/sceapp/ticketsbymonthform">Listar por Mes</a></li>
-            </ul>
-          </li>                    
-        </ul>    
-            <ul class="nav pull-right">
-          <li class="divider-vertical"></li>
-	  <li class="inactive"><a href="/sceapp/logout">Salir</a></li>
-          </li>
-        </ul>
-      </div><!-- /.nav-collapse -->
-    </div>
-  </div><!-- /navbar-inner -->
-</div>
-    
+{% include "sceapp/navbar.html" %}    
 
 <br>
 <div class="hero-unit">

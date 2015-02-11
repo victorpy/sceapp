@@ -101,9 +101,18 @@ def payticketpreview(request):
                 	amount = rate
                 	logger.debug("payticketpreview: total < time rate: %s ", amount)
         	else:
-                	total_min_time_rounds = math.ceil(total_seconds/int(minTime))
-                	amount = int(total_min_time_rounds * int(rate))
-                	logger.debug("payticketpreview: total > time rate: %s ", amount)
+			configTolerance = Configs.objects.get(key="tolerance")
+			tolerance = configTolerance.value
+			total_min_time_rounds_floor = math.floor(total_seconds/int(minTime))
+			logger.debug("payticketpreview: floor %d", total_min_time_rounds_floor)
+                	total_min_time_rounds_ceil = math.ceil(total_seconds/int(minTime))
+			logger.debug("payticketpreview: ceil %d", total_min_time_rounds_ceil)
+			if (total_seconds < ((int(minTime)*total_min_time_rounds_floor) + int(tolerance))):
+                		amount = int(total_min_time_rounds_floor * int(rate))
+                		logger.debug("payticketpreview: total > time rate + tolerance: %d , %s ",(int(minTime)*total_min_time_rounds_floor + int(tolerance)), amount)
+			else:
+				amount = int(total_min_time_rounds_ceil * int(rate))
+                                logger.debug("payticketpreview: total < time rate + tolerance: %d , %s ", (int(minTime)*total_min_time_rounds_ceil + int(tolerance)), amount)
 
         	return render(request, 'sceapp/payticketpreview.html', {'start_date': t.start_date, 'end_date': paydate, 'total_time_str': total_time_str, 'amount': amount, 'ticket_token': t.token})
 	
@@ -164,7 +173,6 @@ def ticketsbydayform(request):
 def listticketsbyday(request):
 	date_str = request.POST.get('dateSelected')
 	logger.debug("listticketsbyday: date_str: %s ", date_str)
-	
 
 
 #for pagination we use GET
@@ -233,8 +241,22 @@ def detail(request, ticket_id):
 	return render(request, 'sceapp/detail.html', {'ticket':ticket})
 
 @login_required(login_url='/sceapp/login/')
-def nullticketform(request, ticket_id):
+def nullticketform(request):
 	return render(request, 'sceapp/nullticketform.html')
+
+@login_required(login_url='/sceapp/login/')
+def nullticketpreview(request):
+
+	ticket_id = request.POST['typed_id']
+        t_array = Ticket.objects.filter(token=ticket_id)
+
+        if len(t_array) >= 1:
+                t = t_array[0]
+        else:
+                return render(request, 'sceapp/ticketnotexist.html', {'ticket_id': ticket_id} )
+
+        return render(request, 'sceapp/nullticketpreview.html', {'ticket_id': t.token, 'start_date': t.start_date, 'state': t.state} )
+
 
 @login_required(login_url='/sceapp/login/')
 def nullticket(request):
@@ -247,10 +269,10 @@ def nullticket(request):
         else:
                 return render(request, 'sceapp/ticketnotexist.html', {'ticket_id', ticket_id} )
 
-	t.status = 'N'
+	t.state = "N"
 	t.save()
 	
-        return render(request, 'sceapp/nullticket.html', {'ticket_id', t.token} )
+        return render(request, 'sceapp/nullticket.html', {'ticket_id': t.token, 'start_date': t.start_date, 'state': t.state} )
 
 
 def login_user(request):

@@ -12,36 +12,8 @@
 <body>
 
 <div class="container">
-<div class="navbar">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <a class="brand" href="#">SCEAPP</a>
-      <div class="nav-collapse">
-        <ul class="nav">
-          <li class="inactive"><a href="/sceapp/index">Inicio</a></li>
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="/sceapp/ticketsbydayform">Listar por Dia</a></li>
-              <li><a href="#">Listar por Mes</a></li>
-            </ul>
-          </li>
-        </ul>
-            <ul class="nav pull-right">
-          <li class="divider-vertical"></li>
-          <li class="inactive"><a href="/sceapp/logout">Salir</a></li>
-          </li>
-        </ul>
-      </div><!-- /.nav-collapse -->
-    </div>
-  </div><!-- /navbar-inner -->
-</div>
 
+{% include "sceapp/navbar.html" %}
 
 <div class="hero-unit">
 
@@ -52,7 +24,8 @@
                   <thead>
                   <tr>
                       <th>ID Ticket</th>
-                      <th>Fecha Creacion</th>
+                      <th>Fecha Entrada</th>
+		      <th>Fecha Salida</th> 
                       <th>Creado por</th>
                       <th>Estado</th>
 		      <th>Monto</th>
@@ -63,6 +36,7 @@
 		<tr>
     			<td>{{ ticket.token|upper }}</td>
 			<td>{{ ticket.start_date|date:"Y-m-d H:i" }}</td>
+			<td>{{ ticket.end_date|date:"Y-m-d H:i" }}</td>
 			<td>{{ ticket.created_by }}</td>
 			<td><span class="label label-success">{{ ticket.state }}</span></td>
 			{% for payment in ticket.payment_set.all %}
