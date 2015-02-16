@@ -19,9 +19,18 @@ class Payment(models.Model):
 	amount = models.IntegerField(default=0)
 	description = models.CharField(max_length=200, default="No desc")
 	created_by = models.CharField(max_length=64, default="None")
+	period = models.CharField(max_length=1, default="H")
 		
 	def __unicode__(self):
 		return self.ticket.token
+
+class Nullment(models.Model):
+	ticket = models.ForeignKey(Ticket)
+	nullment_date =  models.DateTimeField('Fecha Anulacion')
+	description = models.CharField(max_length=200, default="No desc")
+
+	def __unicode__(self):
+                return self.ticket.token
 
 class Configs(models.Model):
 	key = models.CharField(max_length=64)

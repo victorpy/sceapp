@@ -1,0 +1,34 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Ticket Anulado</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/datepicker.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    </head>
+<body>
+<div class="container" >
+
+{% include "sceapp/navbar.html" %}
+
+<div class="hero-unit">
+<h2>Informe de Ticket</h2>
+
+<h3>ID del Ticket: {{ ticket_id }}</h3>
+<h3>Fecha de Entrada: {{ start_date|date:"Y-m-d H:i:s" }}</h3>
+<h3>Fecha de Anulacion: {{ nullment_date|date:"Y-m-d H:i:s" }}</h3>
+<h3>Estado: {% if state == "A" %} ABIERTO {% elif state == "P" %} PAGADO {% else %} ANULADO {% endif %}</h3>
+<h3>Descripcion: {{ description }}</h3>
+
+
+<a href="/sceapp/index" class="btn btn-info">Volver</a>
+</div>
+
+        <script src="{% static 'jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+ </body>
+</html>
+

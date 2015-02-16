@@ -1,0 +1,31 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Anular Ticket</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/datepicker.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    </head>
+<body>
+<div class="container">
+
+{% include "sceapp/navbar.html" %}
+
+<div class="hero-unit">
+<h2>Anular Ticket</h2>
+
+<form action="{% url 'sceapp:nullticketpreview' %}" method="post">
+{% csrf_token %}
+Ingresar ID de Ticket: <input type="Text" name="typed_id" autofocus="autofocus" />
+<button type="submit" class="btn btn-success">Vista Previa Anulacion</button>
+</form>
+</div>
+</div>
+        <script src="{% static 'jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+ </body>
+</html>
+

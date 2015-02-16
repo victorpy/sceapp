@@ -1,0 +1,52 @@
+{% load staticfiles %}
+
+<html>
+    <head>
+        <title>Vista Previa - Pagar Ticket</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/datepicker.css' %}">
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    </head>
+<body>
+<div class="container" >
+
+{% include "sceapp/navbar.html" %}
+
+<div class="hero-unit">
+<h2>Informe de Ticket</h2>
+
+<h3>ID del Ticket: {{ ticket_id }}</h3>
+<h3>Fecha de Entrada: {{ start_date|date:"Y-m-d H:i:s" }}</h3>
+<h3>Estado: {% if state == "A" %} ABIERTO {% elif state == "P" %} PAGADO {% else %} ANULADO {% endif %}</h3>
+
+<div class="hero-unit">
+<form action="{% url 'sceapp:nullticket' %}" method="post" OnSubmit="return CheckDescription()" >
+{% csrf_token %}
+Descripcion de la Anulacion: <textarea class="form-control" name="description" rows="2"></textarea> <br/>
+Ingresar ID de Ticket: <input type="Text" name="typed_id" autofocus="autofocus" value={{ ticket_id }} />
+<input type="hidden" name="end_date" value="{{ end_date|date:"Y-m-d H:i:s" }}" />
+
+<button type="submit" class="btn btn-success">Anular</button>
+<a href="/sceapp/index" class="btn btn-info">Volver</a>
+</form>
+</div>
+
+</div>
+
+	<script language=javascript type="text/javascript">
+		function CheckDescription(){
+			if (document.forms[0].description.value=="")
+			{
+				alert("Favor completar el campo descripcion."); 
+				return false;
+			}
+			return true
+		}
+	</script>
+        <script src="{% static 'jquery/jquery.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+ </body>
+</html>
+

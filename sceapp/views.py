@@ -6,7 +6,7 @@ from django.utils import timezone
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-from sceapp.models import Ticket, Payment, Configs
+from sceapp.models import Ticket, Payment, Configs, Nullment
 # Create your views here.
 
 import cStringIO as StringIO
@@ -241,6 +241,18 @@ def detail(request, ticket_id):
 	return render(request, 'sceapp/detail.html', {'ticket':ticket})
 
 @login_required(login_url='/sceapp/login/')
+def manualpaymentform(request):
+	return render(request, 'sceapp/manualpaymentform.html')
+
+@login_required(login_url='/sceapp/login/')
+def manualpaymentpreview(request):
+        return render(request, 'sceapp/manualpaymentpreview.html')
+
+@login_required(login_url='/sceapp/login/')
+def manualpayment(request):
+        return render(request, 'sceapp/manualpayment.html')
+
+@login_required(login_url='/sceapp/login/')
 def nullticketform(request):
 	return render(request, 'sceapp/nullticketform.html')
 
@@ -269,10 +281,17 @@ def nullticket(request):
         else:
                 return render(request, 'sceapp/ticketnotexist.html', {'ticket_id', ticket_id} )
 
+	description = request.POST['description']
+	
+	nullment_date = timezone.now()
+
 	t.state = "N"
+
+	nullment = Nullment(ticket=t, nullment_date=nullment_date , description=description)
+	nullment.save()
 	t.save()
 	
-        return render(request, 'sceapp/nullticket.html', {'ticket_id': t.token, 'start_date': t.start_date, 'state': t.state} )
+        return render(request, 'sceapp/nullticket.html', {'ticket_id': t.token, 'start_date': t.start_date, 'state': t.state, 'nullment_date': nullment_date, 'description': description} )
 
 
 def login_user(request):
