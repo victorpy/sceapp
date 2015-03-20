@@ -246,11 +246,63 @@ def manualpaymentform(request):
 
 @login_required(login_url='/sceapp/login/')
 def manualpaymentpreview(request):
-        return render(request, 'sceapp/manualpaymentpreview.html')
+	
+	ticket_id = request.POST['typed_id']
+        t_array = Ticket.objects.filter(token=ticket_id).order_by('-start_date')
+
+        if len(t_array) >= 1:
+                t = t_array[0]
+        else:
+                return render(request, 'sceapp/ticketnotexist.html', {'ticket_id': ticket_id} )
+
+        return render(request, 'sceapp/manualpaymentpreview.html', {'ticket_id': t.token, 'start_date': t.start_date, 'state': t.state} )
+
+@login_required(login_url='/sceapp/login/')
+def manualpaymentpreview2(request):
+
+	ticket_id = request.POST['typed_id']
+        t_array = Ticket.objects.filter(token=ticket_id).order_by('-start_date')
+
+        if len(t_array) >= 1:
+                t = t_array[0]
+        else:
+                return render(request, 'sceapp/ticketnotexist.html', {'ticket_id': ticket_id} )
+	
+	end_date = timezone.now()
+	period = request.POST['period']
+	amount = request.POST['amount']
+	description = request.POST['description']
+	
+
+        return render(request, 'sceapp/manualpaymentpreview2.html', {'ticket_id': t.token, 'start_date': t.start_date, 'state': t.state, 'end_date': end_date, 'period': period, 'amount':amount, 'description': description})
+
 
 @login_required(login_url='/sceapp/login/')
 def manualpayment(request):
-        return render(request, 'sceapp/manualpayment.html')
+
+	t_array = Ticket.objects.filter(token=request.POST['typed_id']).order_by('-start_date')
+
+        if len(t_array) >= 1:
+                t = t_array[0]
+        else:
+                return render(request, 'sceapp/paymenterror.html')
+
+        #t = get_object_or_404(Ticket, pk=request.POST['typed_id'])
+        logger.debug("manualpayment: end_time: %s ", request.POST['end_date'])
+	logger.debug("manualpayment: period: %s ", request.POST['period'])
+        t.end_date = request.POST['end_date']
+        t.state = "P"
+        amount = request.POST['amount']
+	period = request.POST['period']
+	description = request.POST['description']
+
+        payment = Payment(ticket=t,amount=amount, payment_date=t.end_date,period=period,description=description)
+
+        t.save()
+        payment.save()
+
+        #return render(request, 'sceapp/paymentsuccess.html')
+        return HttpResponseRedirect(reverse('sceapp:paypdfview', args=(t.token,)))
 
 @login_required(login_url='/sceapp/login/')
 def nullticketform(request):

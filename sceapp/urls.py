@@ -44,6 +44,8 @@ urlpatterns = patterns('',
     url(r'^manualpaymentform/$', views.manualpaymentform, name='manualpaymentform'),
     #ex: sceapp/manualpaymentpreview
     url(r'^manualpaymentpreview/$', views.manualpaymentpreview, name='manualpaymentpreview'),
+    #ex: sceapp/manualpaymentpreview
+    url(r'^manualpaymentpreview2/$', views.manualpaymentpreview2, name='manualpaymentpreview2'),
     #ex: sceapp/manualpayment
     url(r'^manualpayment/$', views.manualpayment, name='manualpayment'),
 

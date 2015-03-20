@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Vista Previa - Anular Ticket</title>
+        <title>Vista Previe - Pago Manual de Ticket</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
         <link rel="stylesheet" href="{% static 'bootstrap/css/datepicker.css' %}">
@@ -18,16 +18,23 @@
 
 <h3>ID del Ticket: {{ ticket_id }}</h3>
 <h3>Fecha de Entrada: {{ start_date|date:"Y-m-d H:i:s" }}</h3>
-<h3>Estado: {% if state == "A" %} ABIERTO {% elif state == "P" %} PAGADO {% else %} ANULADO {% endif %}</h3>
+<h3>Fecha de Pago: {{ end_date|date:"Y-m-d H:i:s" }}</h3>
+<h3>Periodo: {% if period == "D" %} DIA {% else %} MES {% endif %}</h3>
+<h3>Estado: {{ state  }} </h3>
+<h3>Monto: {{ amount  }} </h3>
+<h3>Descripcion: {{ description }} </h3>
 
 <div class="hero-unit">
-<form action="{% url 'sceapp:nullticket' %}" method="post" OnSubmit="return CheckDescription()" >
+<form action="{% url 'sceapp:manualpayment' %}" method="post" target="_blank" OnSubmit="return CheckDescription()" >
 {% csrf_token %}
-Descripcion de la Anulacion: <textarea class="form-control" name="description" rows="2"></textarea> <br/>
 Ingresar ID de Ticket: <input type="Text" name="typed_id" autofocus="autofocus" value={{ ticket_id }} />
 <input type="hidden" name="end_date" value="{{ end_date|date:"Y-m-d H:i:s" }}" />
+<input type="hidden" name="period" value="{{ period }}" />
+<input type="hidden" name="amount" value="{{ amount }}" />
+<input type="hidden" name="description" value="{{ description }}" />
 
-<button type="submit" class="btn btn-success">Anular</button>
+
+<button type="submit" onclick="this.disabled=true;this.value='Pago Confirmado';this.form.submit();" class="btn btn-success">Confirmar Pago</button>
 <a href="/sceapp/index" class="btn btn-info">Volver</a>
 </form>
 </div>

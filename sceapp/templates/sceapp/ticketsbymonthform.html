@@ -9,38 +9,9 @@
         <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
     </head>
     <body>
-        <div class="container">
+<div class="container">
 
-<div class="navbar">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </a>
-      <a class="brand" href="#">SCEAPP</a>
-      <div class="nav-collapse">
-        <ul class="nav">
-          <li class="inactive"><a href="/sceapp/index">Inicio</a></li>
-            <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reportes <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <li><a href="/sceapp/ticketsbydayform">Listar por Dia</a></li>
-              <li><a href="/sceapp/ticketsbymonthform">Listar por Mes</a></li>
-            </ul>
-          </li>
-        </ul>
-            <ul class="nav pull-right">
-          <li class="divider-vertical"></li>
-          <li class="inactive"><a href="/sceapp/logout">Salir</a></li>
-          </li>
-        </ul>
-      </div><!-- /.nav-collapse -->
-    </div>
-  </div><!-- /navbar-inner -->
-</div>
-
+{% include "sceapp/navbar.html" %}
 
 	  <form id="dateSelect" action="{% url 'sceapp:listticketsbymonth' %}" method="post" >
 	    {% csrf_token %}
@@ -49,9 +20,10 @@
 		<button type="submit" class="btn btn-default">Consultar</button>
             </div>
 	  </form>
-        </div>
+</div>
         <!-- Load jQuery and bootstrap datepicker scripts -->
         <script src="{% static 'jquery/jquery.min.js' %}"></script>
+	<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/datepicker.js' %}"></script>
 	<script src="{% static 'bootstrap/js/datepicker.es.js' %}"></script>
         <script type="text/javascript">

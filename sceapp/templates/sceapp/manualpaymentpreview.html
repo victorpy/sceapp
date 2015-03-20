@@ -2,7 +2,7 @@
 
 <html>
     <head>
-        <title>Vista Previa - Anular Ticket</title>
+        <title>Pago Manual de Ticket</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <!-- Bootstrap CSS and bootstrap datepicker CSS used for styling the demo pages-->
         <link rel="stylesheet" href="{% static 'bootstrap/css/datepicker.css' %}">
@@ -21,13 +21,20 @@
 <h3>Estado: {% if state == "A" %} ABIERTO {% elif state == "P" %} PAGADO {% else %} ANULADO {% endif %}</h3>
 
 <div class="hero-unit">
-<form action="{% url 'sceapp:nullticket' %}" method="post" OnSubmit="return CheckDescription()" >
+<form action="{% url 'sceapp:manualpaymentpreview2' %}" method="post" OnSubmit="return CheckDescription()" >
 {% csrf_token %}
-Descripcion de la Anulacion: <textarea class="form-control" name="description" rows="2"></textarea> <br/>
+Descripcion del Pago: <textarea class="form-control" name="description" rows="2"></textarea> <br/>
+Periodo: <input type="radio" name="period" value="D" checked >Dia
+         <input type="radio" name="period" value="H">Mes 
+<br/>
+Monto: <input type="Text" name="amount" value="0" />
+<br/>
 Ingresar ID de Ticket: <input type="Text" name="typed_id" autofocus="autofocus" value={{ ticket_id }} />
-<input type="hidden" name="end_date" value="{{ end_date|date:"Y-m-d H:i:s" }}" />
-
-<button type="submit" class="btn btn-success">Anular</button>
+{% if state == "A" %} 
+<button type="submit" class="btn btn-success">Vista Previa del Pago</button>
+{% else %} 
+<button type="submit" class="btn btn-success" disabled=true>Estado del Ticket Invalido</button>
+{% endif %}
 <a href="/sceapp/index" class="btn btn-info">Volver</a>
 </form>
 </div>
