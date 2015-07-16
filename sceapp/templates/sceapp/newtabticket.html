@@ -1,5 +1,14 @@
+{% load staticfiles %}
 <html>
 <head>
+
+    <link href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+          rel="stylesheet" media="screen">
+
+    <script src="{% static 'jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+
+
 <script>
 function sendNewTicket(){
   document.forms['newticket'].submit()
@@ -8,12 +17,26 @@ function sendNewTicket(){
 </script>
 </head>
 
-<body onload="sendNewTicket()">
+<body>
+
+<div class="container">
+
+{% include "sceapp/navbar.html" %}
+
+<br>
+<div class="hero-unit">
+
 
  <form action="{% url 'sceapp:newticket' %}" method="post" id="newticket">
   {% csrf_token %}
+  Ingresar Chapa: <input type="Text" name="plate_id" autofocus="autofocus" />
   <button type="submit">Generar Ticket</button>
+  <a href="/sceapp/index" class="btn btn-info">Volver</a>
  </form>
+
+</div><!-- /hero unit -->
+</div><!-- /container unit -->
+
 
 </body>
 </html>

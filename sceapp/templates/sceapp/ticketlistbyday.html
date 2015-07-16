@@ -17,13 +17,14 @@
 
 <div class="hero-unit">
 
-	<h3>Monto Total: {{ total_amount }} Gs.</h3>
+	<h3>Total Tickets: {{ total_tickets }} - Monto Total: {{ total_amount }} Gs.</h3>
 	<div class="row">
-	<div class="span8">
+	<div class="span9">
             <table class="table">
                   <thead>
                   <tr>
                       <th>ID Ticket</th>
+		      <th>Chapa</th>
                       <th>Fecha Entrada</th>
 		      <th>Fecha Salida</th> 
                       <th>Creado por</th>
@@ -35,6 +36,7 @@
 		{% for ticket in tickets %}
 		<tr>
     			<td>{{ ticket.token|upper }}</td>
+			<td>{{ ticket.plate_id }}</td>
 			<td>{{ ticket.start_date|date:"Y-m-d H:i" }}</td>
 			<td>{{ ticket.end_date|date:"Y-m-d H:i" }}</td>
 			<td>{{ ticket.created_by }}</td>

@@ -8,6 +8,7 @@ class Ticket(models.Model):
 	end_date = models.DateTimeField('Fecha Salida',  blank=True, null=True)
 	description = models.CharField(max_length=200)
         token = models.CharField(max_length=12, default="No token")
+	plate_id = models.CharField(max_length=16, default="XXXXXX")
 	created_by = models.CharField(max_length=64, default="None")
 	state = models.CharField(max_length=1, default="A")
 	def __unicode__(self):

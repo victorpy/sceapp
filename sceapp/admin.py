@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from sceapp.models import Ticket,Payment,Configs
+from sceapp.models import Ticket,Payment,Configs,Nullment
 
 class TicketAdmin(admin.ModelAdmin):
 	fields = ['start_date', 'end_date', 'token', 'state']
@@ -17,6 +17,16 @@ class PaymentAdmin(admin.ModelAdmin):
 		return obj.ticket.token
 	token.short_description = 'Token'
 
+class NullmentAdmin(admin.ModelAdmin):
+
+	list_display = ('token','nullment_date','description')
+
+	def token(self, obj):
+                return obj.ticket.token
+        token.short_description = 'Token'
+	
+
 admin.site.register(Ticket,TicketAdmin)
 admin.site.register(Payment,PaymentAdmin)
+admin.site.register(Nullment,NullmentAdmin)
 admin.site.register(Configs)

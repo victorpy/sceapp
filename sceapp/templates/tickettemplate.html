@@ -4,7 +4,7 @@
         <title>My Title</title>
         <style type="text/css">
             @page {
-                size: 8cm 8cm;
+                size: 8cm 9cm; /* width height */
                 margin: 0.5cm;
                 @frame footer {
                     -pdf-frame-content: footerContent;
@@ -20,10 +20,11 @@
 	<h3>{{ top_title }}</h3>
 	<h4>Oliva 1052 e/ Chile y Ntra. Sra. de la Asuncion-Tel: 442844</h4>
 	<h4>ID Ticket: {{ ticket_id }}</h4>
+        <h4>Chapa: {{ plate_id }}</h4>
         <div>
                  <img  src="{{ barcode }}"/> 
         </div>
-	<h3>Hora Entrada: {{ start_date }} </h3>
+	<h3>Fecha - Hora Entrada: {{ start_date | date:" d-m-Y H:i:s" }} </h3>
 	<h3>Lunes a Viernes Horario: 6:30 - 18:30</h3>
 	<h3>La empresa no se responsabiliza por accidentes y/o perdidas</h3>
         <div id="footerContent">
