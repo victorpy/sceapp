@@ -14,6 +14,15 @@ function sendNewTicket(){
   document.forms['newticket'].submit()
 
 }
+
+function checkTextField() {
+    if (document.getElementById('plate_id').value == '') {
+        alert("El campo Chapa esta vacio!!");
+	return false;
+    }
+
+    return true;
+}
 </script>
 </head>
 
@@ -27,9 +36,9 @@ function sendNewTicket(){
 <div class="hero-unit">
 
 
- <form action="{% url 'sceapp:newticket' %}" method="post" id="newticket">
+ <form action="{% url 'sceapp:newticket' %}" method="post" id="newticket" onsubmit="return checkTextField();">
   {% csrf_token %}
-  Ingresar Chapa: <input type="Text" name="plate_id" autofocus="autofocus" />
+  Ingresar Chapa: <input type="Text" id="plate_id" name="plate_id" autofocus="autofocus" />
   <button type="submit">Generar Ticket</button>
   <a href="/sceapp/index" class="btn btn-info">Volver</a>
  </form>
