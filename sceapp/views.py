@@ -143,7 +143,16 @@ def payticket(request):
 	if len(t_array) >= 1:
 		t = t_array[0]
 	else:
+		logger.debug("payticket: No ticket found!. ticket_id from post %s", request.POST['typed_id'])
 		return render(request, 'sceapp/paymenterror.html')		
+
+	
+	#check if a payment already exist for the ticket id. Avoid Double Payment for a ticket
+	p_array = Payment.objects.filter(ticket=t)
+	
+	if len(p_array)  >= 1:
+		logger.debug("payticket: Payment for ticket %s already exist.", request.POST['typed_id'])
+		return render(request, 'sceapp/paymentexisterror.html')
 
 	#t = get_object_or_404(Ticket, pk=request.POST['typed_id'])
 	logger.debug("payticket: end_time: %s ", request.POST['end_date'])
