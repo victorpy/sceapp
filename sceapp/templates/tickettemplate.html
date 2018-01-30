@@ -19,13 +19,14 @@
     <body>
 	<h3>{{ top_title }}</h3>
 	<h4>Oliva 1052 e/ Chile y Ntra. Sra. de la Asuncion-Tel: 442844</h4>
+	<h4>Cel: 0984561777</h4>
 	<h4>ID Ticket: {{ ticket_id }}</h4>
         <h4>Chapa: {{ plate_id }}</h4>
         <div>
                  <img  src="{{ barcode }}"/> 
         </div>
 	<h3>Fecha - Hora Entrada: {{ start_date | date:" d-m-Y H:i:s" }} </h3>
-	<h3>Lunes a Viernes Horario: 6:30 - 18:30</h3>
+	<h3>Lunes a Viernes Horario: 6:30 - 19:00</h3>
 	<h3>La empresa no se responsabiliza por accidentes y/o perdidas</h3>
         <div id="footerContent">
             {%block page_foot%}
